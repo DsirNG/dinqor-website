@@ -24,6 +24,9 @@ importers:
         specifier: ^5.3.0
         version: 5.3.1(@vue/compiler-sfc@3.5.42)(esbuild@0.28.2)(rolldown@1.2.7)(rollup@4.63.1)(vite@8.2.2(esbuild@0.28.2)(jiti@2.7.0)(sass@1.103.1)(terser@5.51.2))(vue@3.5.42)
     devDependencies:
+      postcss-pxtorem:
+        specifier: ^6.1.0
+        version: 6.1.0(postcss@8.5.26)
       sass:
         specifier: ^1.103.1
         version: 1.103.1
@@ -2566,6 +2569,11 @@ packages:
     engines: {node: ^22.11.0 || ^24.11.0 || >=26.0}
     peerDependencies:
       postcss: ^8.5.26
+
+  postcss-pxtorem@6.1.0:
+    resolution: {integrity: sha512-ROODSNci9ADal3zUcPHOF/K83TiCgNSPXQFSbwyPHNV8ioHIE4SaC+FPOufd8jsr5jV2uIz29v1Uqy1c4ov42g==}
+    peerDependencies:
+      postcss: ^8.0.0
 
   postcss-reduce-initial@8.0.5:
     resolution: {integrity: sha512-Bh5d7zjH1Ai9LzJ1qULUZIaC18cniD+wA6gFlOPglMxJRC7meXbuPvpJ/zHQGg5QKwQgit++XQhDTiEIhCk8Ow==}
@@ -6120,6 +6128,10 @@ snapshots:
       cssnano-utils: 6.0.4(postcss@8.5.26)
       postcss: 8.5.26
       postcss-value-parser: 4.2.0
+
+  postcss-pxtorem@6.1.0(postcss@8.5.26):
+    dependencies:
+      postcss: 8.5.26
 
   postcss-reduce-initial@8.0.5(postcss@8.5.26):
     dependencies:
