@@ -11,5 +11,15 @@ export default defineNuxtConfig({
         { rel: 'icon', type: 'image/png', sizes: '512x512', href: '/icon-512.png' }
       ]
     }
+  },
+  postcss: {
+    plugins: {
+      'postcss-pxtorem': {
+        rootValue: 16,
+        propList: ['*'],
+        selectorBlackList: ['html'], // don't convert root font-size
+        minPixelValue: 2 // don't convert tiny borders etc.
+      }
+    }
   }
 })

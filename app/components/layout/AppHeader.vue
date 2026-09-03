@@ -14,7 +14,8 @@ const menuItems = ref([
   <header class="app-header">
     <div class="header-inner">
       <div class="logo">
-        <strong>DinQor</strong>AI
+        <img src="/logo-512.png" alt="Logo" class="logo-img" />
+        <span><strong>DinQor</strong>AI</span>
       </div>
       
       <nav class="main-nav">
@@ -55,17 +56,29 @@ const menuItems = ref([
   width: 100%;
   max-width: 1400px;
   height: 64px;
-  background: rgba(255, 255, 255, 0.05);
+  background: rgba(255, 255, 255, 0.08);
   backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
   border-radius: 32px;
   padding: 0 24px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05), inset 0 0 0 1px rgba(255, 255, 255, 0.2);
 }
 
 .logo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
   font-size: 20px;
   font-weight: 500;
   color: #1a1a2e;
+  
+  .logo-img {
+    width: 28px;
+    height: 28px;
+    object-fit: contain;
+  }
+  
   strong {
     font-weight: 700;
   }

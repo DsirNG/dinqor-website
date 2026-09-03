@@ -59,7 +59,7 @@ const fragmentShaderSource = `
     vec3 color3 = vec3(0.85, 0.9, 1.0);     // Light blue
     vec3 color4 = vec3(1.0, 1.0, 1.0);      // White
 
-    float t = u_time * 0.2;
+    float t = u_time * 0.05;
     vec2 pos = st * 1.5;
     
     // Add multiple layers of noise for complex fluid movement
