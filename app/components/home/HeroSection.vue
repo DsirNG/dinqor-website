@@ -22,8 +22,8 @@ const handleMouseLeave = () => {
 
 <template>
   <section class="hero-section">
-    <!-- Opening Meteor Shower Particles Overlay -->
-    <HomeMeteorShower />
+    <!-- Opening Light-Themed Fluid Energy Spark Overlay -->
+    <HomeFluidEnergySpark />
 
     <!-- Flowing Light WebGL Background -->
     <HomeFluidBackground />

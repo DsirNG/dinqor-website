@@ -109,21 +109,21 @@ onMounted(() => {
 @keyframes navMorphSequence {
   0% {
     opacity: 0;
-    transform: translateY(32vh) scale(0.15);
+    transform: translateY(32vh) scale(0.2);
     width: 44px;
     height: 44px;
     border-radius: 50%;
-    box-shadow: 0 0 50px rgba(59, 130, 246, 0.8), 0 0 100px rgba(99, 102, 241, 0.6);
-    background: #3b82f6;
+    box-shadow: 0 0 50px rgba(59, 130, 246, 0.6), 0 0 100px rgba(147, 197, 253, 0.8);
+    background: #ffffff;
   }
   30% {
     opacity: 1;
-    transform: translateY(32vh) scale(1.2);
+    transform: translateY(32vh) scale(1.15);
     width: 44px;
     height: 44px;
     border-radius: 50%;
-    box-shadow: 0 0 60px rgba(59, 130, 246, 0.9), 0 0 120px rgba(139, 92, 246, 0.8);
-    background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+    box-shadow: 0 0 60px rgba(59, 130, 246, 0.7), 0 0 120px rgba(99, 102, 241, 0.5);
+    background: linear-gradient(135deg, #ffffff, #dbeafe);
   }
   65% {
     opacity: 1;
@@ -131,7 +131,7 @@ onMounted(() => {
     width: 44px;
     height: 44px;
     border-radius: 50%;
-    box-shadow: 0 0 40px rgba(59, 130, 246, 0.4);
+    box-shadow: 0 0 40px rgba(59, 130, 246, 0.3);
     background: #ffffff;
   }
   100% {
