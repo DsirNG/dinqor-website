@@ -23,10 +23,10 @@ const fragmentShaderSource = `
   vec3 permute(vec3 x) { return mod289(((x*34.0)+1.0)*x); }
 
   float snoise(vec2 v) {
-    const vec4 C = vec4(0.211324865405187,  // (3.0-sqrt(3.0))/6.0
-                        0.366025403784439,  // 0.5*(sqrt(3.0)-1.0)
-                       -0.577350269189626,  // -1.0 + 2.0 * C.x
-                        0.024390243902439); // 1.0 / 41.0
+    const vec4 C = vec4(0.211324865405187,
+                        0.366025403784439,
+                       -0.577350269189626,
+                        0.024390243902439);
     vec2 i  = floor(v + dot(v, C.yy) );
     vec2 x0 = v -   i + dot(i, C.xx);
     vec2 i1;
@@ -37,8 +37,8 @@ const fragmentShaderSource = `
     vec3 p = permute( permute( i.y + vec3(0.0, i1.y, 1.0 ))
       + i.x + vec3(0.0, i1.x, 1.0 ));
     vec3 m = max(0.5 - vec3(dot(x0,x0), dot(x12.xy,x12.xy), dot(x12.zw,x12.zw)), 0.0);
-    m = m*m ;
-    m = m*m ;
+    m = m*m;
+    m = m*m;
     vec3 x = 2.0 * fract(p * C.www) - 1.0;
     vec3 h = abs(x) - 0.5;
     vec3 ox = floor(x + 0.5);
@@ -50,28 +50,39 @@ const fragmentShaderSource = `
     return 130.0 * dot(m, g);
   }
 
+  // Fractional Brownian Motion for silky liquid waves
+  float fbm(vec2 p) {
+    float val = 0.0;
+    float amp = 0.5;
+    for (int i = 0; i < 4; i++) {
+      val += amp * snoise(p);
+      p *= 2.02;
+      amp *= 0.5;
+    }
+    return val;
+  }
+
   void main() {
     vec2 st = gl_FragCoord.xy / u_resolution.xy;
     st.x *= u_resolution.x / u_resolution.y;
 
-    vec3 color1 = vec3(0.9, 0.94, 1.0);     // Very light blue
-    vec3 color2 = vec3(0.96, 0.92, 1.0);    // Very light purple
-    vec3 color3 = vec3(0.85, 0.9, 1.0);     // Light blue
-    vec3 color4 = vec3(1.0, 1.0, 1.0);      // White
-
-    float t = u_time * 0.05;
-    vec2 pos = st * 1.5;
+    float t = u_time * 0.04;
     
-    // Add multiple layers of noise for complex fluid movement
-    float q = snoise(pos + t);
-    vec2 noisePos = vec2(pos.x + q, pos.y + q);
-    float n = snoise(noisePos + t * 0.8);
-    float n2 = snoise(noisePos - t * 0.6);
+    // Domain warping for smooth silky liquid flow (no giant spots)
+    vec2 q = vec2(fbm(st * 2.2 + vec2(t, t * 0.7)), fbm(st * 2.2 + vec2(t * 0.5, t)));
+    vec2 r = vec2(fbm(st * 2.5 + 1.2 * q + vec2(1.7, 9.2) + 0.15 * t), fbm(st * 2.5 + 1.2 * q + vec2(8.3, 2.8) + 0.125 * t));
 
-    // Mix colors based on noise
-    vec3 color = mix(color1, color2, n);
-    color = mix(color, color3, n2);
-    color = mix(color, color4, smoothstep(0.2, 0.8, n * n2));
+    float f = fbm(st * 2.0 + r);
+
+    // Elegant tech color palette (Soft Slate, Ice Blue, Subtle Lavender)
+    vec3 baseBg = vec3(0.97, 0.98, 1.0);
+    vec3 color1 = vec3(0.91, 0.94, 0.99); // Soft Ice Blue
+    vec3 color2 = vec3(0.92, 0.91, 0.98); // Soft Soft Violet
+    vec3 color3 = vec3(0.86, 0.91, 0.98); // Tech Cyan-Blue Tint
+
+    vec3 color = mix(baseBg, color1, clamp(f * f * 3.0, 0.0, 1.0));
+    color = mix(color, color2, clamp(length(q), 0.0, 1.0) * 0.6);
+    color = mix(color, color3, clamp(length(r.x), 0.0, 1.0) * 0.5);
 
     gl_FragColor = vec4(color, 1.0);
   }
@@ -179,11 +190,11 @@ onBeforeUnmount(() => {
 
 <style scoped>
 .fluid-canvas {
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
-  width: 100%;
-  height: 100%;
+  width: 100vw;
+  height: 100vh;
   z-index: 0;
   pointer-events: none;
 }

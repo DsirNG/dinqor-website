@@ -12,6 +12,8 @@
   "dependencies": {
     "@vueuse/core": "^14.4.0",
     "gsap": "^3.15.0",
+    "lucide": "^1.48.0",
+    "morphicons": "^1.7.1",
     "nuxt": "^4.5.2",
     "vue": "^3.5.42",
     "vue-router": "^5.3.0"
