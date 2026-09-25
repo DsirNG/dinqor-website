@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
 
 const menuItems = ref([
   { name: '首页', path: '/', active: true },
@@ -8,10 +8,21 @@ const menuItems = ref([
   { name: '场景', path: '/scenarios', active: false },
   { name: '资源', path: '/resources', active: false },
 ])
+
+const isLoaded = ref(false)
+
+onMounted(() => {
+  setTimeout(() => {
+    isLoaded.value = true
+  }, 100)
+})
 </script>
 
 <template>
-  <header class="app-header">
+  <header class="app-header" :class="{ 'anim-active': isLoaded }">
+    <!-- Morphing Focal Point Glowing Aura -->
+    <div class="header-morph-aura"></div>
+    
     <div class="header-inner">
       <div class="logo">
         <img src="/logo-512.png" alt="Logo" class="logo-img" />
@@ -47,6 +58,7 @@ const menuItems = ref([
   display: flex;
   justify-content: center;
   padding: 0 20px;
+  pointer-events: none;
 }
 
 .header-inner {
@@ -56,13 +68,96 @@ const menuItems = ref([
   width: 100%;
   max-width: 1400px;
   height: 64px;
-  background: rgba(255, 255, 255, 0.08);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.3);
+  background: rgba(255, 255, 255, 0.75);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(226, 232, 240, 0.8);
   border-radius: 32px;
   padding: 0 24px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05), inset 0 0 0 1px rgba(255, 255, 255, 0.2);
+  box-shadow: 
+    0 10px 30px -5px rgba(15, 23, 42, 0.08),
+    0 0 20px rgba(59, 130, 246, 0.1),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.8);
+  pointer-events: auto;
+  opacity: 0;
+  transform: translateY(30vh) scale(0.15);
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  overflow: hidden;
+}
+
+/* Staggered Content inside Nav Bar */
+.logo, .main-nav, .actions {
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+
+/* Sequence Animation trigger */
+.app-header.anim-active .header-inner {
+  animation: navMorphSequence 2.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  animation-delay: 0.6s;
+}
+
+.app-header.anim-active .logo,
+.app-header.anim-active .main-nav,
+.app-header.anim-active .actions {
+  animation: navContentFade 0.6s ease forwards;
+  animation-delay: 2.6s;
+}
+
+@keyframes navMorphSequence {
+  0% {
+    opacity: 0;
+    transform: translateY(32vh) scale(0.15);
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    box-shadow: 0 0 50px rgba(59, 130, 246, 0.8), 0 0 100px rgba(99, 102, 241, 0.6);
+    background: #3b82f6;
+  }
+  30% {
+    opacity: 1;
+    transform: translateY(32vh) scale(1.2);
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    box-shadow: 0 0 60px rgba(59, 130, 246, 0.9), 0 0 120px rgba(139, 92, 246, 0.8);
+    background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+  }
+  65% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    box-shadow: 0 0 40px rgba(59, 130, 246, 0.4);
+    background: #ffffff;
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    width: 100%;
+    max-width: 1400px;
+    height: 64px;
+    border-radius: 32px;
+    box-shadow: 
+      0 10px 30px -5px rgba(15, 23, 42, 0.08),
+      0 0 20px rgba(59, 130, 246, 0.1),
+      inset 0 0 0 1px rgba(255, 255, 255, 0.8);
+    background: rgba(255, 255, 255, 0.85);
+  }
+}
+
+@keyframes navContentFade {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .logo {
